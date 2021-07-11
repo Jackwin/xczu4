@@ -8,16 +8,15 @@ wire        s_axis_tvalid;
 wire [15:0] s_axis_tdata;
 wire        s_axis_tready;
 wire        sys_arstn;
-wire        cfg_ctrl;
-wire        cfg_ctrl_r;
-wire        data_gen_start;
-wire [94:0] gpio_vec;
+reg         cfg_ctrl_r;
+reg         data_gen_start;
+wire [3:0]  gpio_vec;
 
 design_1 design_1_wrapper (
     .clk_200(clk_200),
     .axis_clk(axis_clk),
     .sys_arstn(sys_arstn),
-    .GPIO_0_tri_o(gpio_vec),
+    .axi_gpio_tri_o(gpio_vec),
     .irq_ext(gpio_vec[1]),
     .S_AXIS_1_tdata(s_axis_tdata),
     .S_AXIS_1_tlast(s_axis_tlast),
@@ -38,7 +37,7 @@ axi_data_gen # (
     .clk(axis_clk),
     .rst(~sys_arstn),
     .i_start(data_gen_start),
-    .i_length(9'h0280),
+    .i_length(9'h100),
     .i_ready(s_axis_tready),
     .o_data(s_axis_tdata),
     .o_valid(s_axis_tvalid),
